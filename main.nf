@@ -28,9 +28,7 @@ include { PIPECEPTION  } from './workflows/pipeception'
 //
 workflow {
 
-    PIPECEPTION (
-        params.input
-    )
+    PIPECEPTION ()
 
 }
 

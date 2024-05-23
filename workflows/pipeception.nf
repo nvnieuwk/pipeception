@@ -4,6 +4,8 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
+include { PIPELINE } from '../modules/local/pipeline/main'
+
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     RUN MAIN WORKFLOW
@@ -11,16 +13,25 @@
 */
 
 workflow PIPECEPTION {
-
-    take:
-    ch_samplesheet // channel: samplesheet read in from --input
-
-    main:
-
-    emit:
-    multiqc_report = MULTIQC.out.report.toList() // channel: /path/to/multiqc_report.html
-    versions       = ch_versions                 // channel: [ path(versions.yml) ]
+    PIPELINE(
+        Channel.of([
+            [
+                id:"test"
+            ],
+            []
+        ]),
+        "nf-cmgg/germline",
+        [
+            profile:"test,docker",
+            stub:true
+        ],
+        [
+            outdir:"results",
+            scatter_count:2
+        ]
+    )
 }
+
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
